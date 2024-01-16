@@ -1,0 +1,11 @@
+Supplier ID,Location,Cotton GSM Range,Payment Period
+S1,India,200-300 GSM,90 days
+S2,India,200-300 GSM,90 days
+S3,India,300-400 GSM,60 days
+S4,Japan,100-200 GSM,90 days
+S5,Japan,300-400 GSM,60 days
+S6,Japan,200-300 GSM,90 days
+S7,Bangladesh,100-200 GSM,90 days
+S8,Bangladesh,100-200 GSM,60 days
+S9,Bangladesh,200-300 GSM,90 days
+S10,Bangladesh,300-400 GSM,60 days
