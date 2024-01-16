@@ -23,11 +23,10 @@ def create_prompt_from_csv(csv_data):
     prompt += "\n\n Suggest me the list of suppliers in India location providing 200-300 cotton gsm with a payment period of 90 days"
     return prompt
 
-def run_clarifai_inference(prompt):
+def run_clarifai_inference(prompt, pat_token):
     """
-    Run Clarifai inference using the given prompt.
+    Run Clarifai inference using the given prompt and PAT.
     """
-    PAT = '54a0ed80ce094bfca2cd6d53a51911c0'
     USER_ID = 'meta'
     APP_ID = 'Llama-2'
     MODEL_ID = 'llama2-70b-chat'
@@ -35,7 +34,7 @@ def run_clarifai_inference(prompt):
 
     channel = ClarifaiChannel.get_grpc_channel()
     stub = service_pb2_grpc.V2Stub(channel)
-    metadata = (('authorization', 'Key ' + PAT),)
+    metadata = (('authorization', 'Key ' + pat_token),)
     userDataObject = resources_pb2.UserAppIDSet(user_id=USER_ID, app_id=APP_ID)
 
     post_model_outputs_response = stub.PostModelOutputs(
@@ -65,6 +64,7 @@ def run_clarifai_inference(prompt):
 def main():
     st.title("Clarifai Streamlit App")
 
+    pat_token = st.text_input("Enter your Clarifai PAT (Personal Access Token):", type="password")
     csv_data = upload_csv()
 
     if csv_data is not None:
@@ -73,9 +73,9 @@ def main():
         prompt = create_prompt_from_csv(csv_data)
         user_input = st.text_area("Generated Prompt", prompt)
 
-        if st.button("Run Clarifai Inference"):
-            output = run_clarifai_inference(user_input)
-            st.text("Clarifai Inference Output:")
+        if st.button("Run Inference"):
+            output = run_clarifai_inference(user_input, pat_token)
+            st.text("Inference Output:")
             st.write(output)
 
 if __name__ == "__main__":
